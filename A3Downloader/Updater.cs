@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Runtime.InteropServices;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using System.Net;
-using System.IO;
-using System.Security.Cryptography;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
-
+using System.Drawing;
+using System.IO;
 using System.IO.Compression;
+using System.Net;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace A3Downloader
 {
@@ -21,18 +19,18 @@ namespace A3Downloader
     {
 
         #region Initialize Veriables 
-        private string Host = "http://www.a3ultimate.com/patch/";
+        private string Host = "http://patcher.a3townwars.com/patch/";
         public string Patch = "Patch.ini";
-        public string UpdatesPath = Directory.GetCurrentDirectory()+@"\Updates";
+        public string UpdatesPath = Directory.GetCurrentDirectory() + @"\Updates";
         public string[] fileArray;
         static string path = Directory.GetCurrentDirectory();
         public string[] directory = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
-        public int lastcount=0;
+        public int lastcount = 0;
         public int downloadingFlag = 0;
         public Stopwatch sw = new Stopwatch();
         public ArrayList downloadFileList = new ArrayList();
-        public ArrayList filelist=new ArrayList();
-        
+        public ArrayList filelist = new ArrayList();
+
         // The stream of data retrieved from the web server
         private Stream strResponse;
         // The stream of data that we write to the harddrive
@@ -47,17 +45,17 @@ namespace A3Downloader
         private delegate void UpdateProgessCallback(Int64 BytesRead, Int64 TotalBytes);
         // When to pause
         public bool Downloading = false;
-        
+
         List<Image> Images = new List<Image>();
-        
-       
+
+
         #endregion
 
         public Updater()
         {
             InitializeComponent();
-           
-           
+            CheckForIllegalCrossThreadCalls = false;
+
         }
 
         #region Check For Instance
@@ -111,15 +109,16 @@ namespace A3Downloader
             // Calculate the download progress in percentages
             PercentProgress = Convert.ToInt32((BytesRead * 100) / TotalBytes);
             // Make progress on the progress bar
-            this.CurrentProgBar.Width = Convert.ToInt32(Math.Round(PercentProgress / 100.0 * 374.0)); 
+            this.CurrentProgBar.Width = Convert.ToInt32(Math.Round(PercentProgress / 100.0 * 374.0));
             // Display the current progress on the form
-            this.percentLable.Text =  PercentProgress + "%" ;
+            this.percentLable.Text = PercentProgress + "%";
             this.SpeedLable.Text = (Convert.ToDouble(BytesRead) / 1024 / sw.Elapsed.TotalSeconds).ToString("0.00") + " kb/s";
         }
-        private void Download(object startPoint,String url,String destination,String filename){
+        private void Download(object startPoint, String url, String destination, String filename)
+        {
             try
             {
-                this.StatusLable.Text = "Downloading: "+filename;
+                this.StatusLable.Text = "Downloading: " + filename;
                 Downloading = true;
                 //this.button1.Enabled = true;
                 // Put the object argument into an int variable
@@ -137,14 +136,14 @@ namespace A3Downloader
                 Int64 fileSize = webResponse.ContentLength;
                 // Start the stopwatch which we will be using to calculate the download speed
                 sw.Start();
- 
+
                 // Open the URL for download 
                 strResponse = webResponse.GetResponseStream();
 
                 // Create a new file stream where we will be saving the data (local drive)
                 // Read from response and write to file
-                fileStream = new FileStream(destination + @"\" + filename,FileMode.Create, FileAccess.Write, FileShare.None);
-                
+                fileStream = new FileStream(destination + @"\" + filename, FileMode.Create, FileAccess.Write, FileShare.None);
+
                 // It will store the current number of bytes we retrieved from the server
                 int bytesSize = 0;
                 // A buffer for storing and writing the data retrieved from the server
@@ -158,19 +157,19 @@ namespace A3Downloader
                     this.Invoke(new UpdateProgessCallback(this.UpdateProgress), new object[] { fileStream.Length, fileSize + startPointInt });
 
                 }
-                
+
             }
             finally
             {
                 // When the above code has ended, close the streams
                 strResponse.Close();
                 fileStream.Close();
-                
+
                 //this.button1.Enabled = false;
             }
         }
         #endregion
-       
+
         #region Generate MD5
         public string GetMD5HashFromFile(string fileName)
         {
@@ -191,18 +190,19 @@ namespace A3Downloader
         #region Perform Downloading & Reading Patch Actions Here
         public bool checkPatchFile()
         {
-            //this.label3.Text="Conncting to A3Ultimate Update Server ";
+            //this.label3.Text="Conncting to A3townwars Update Server ";
             try
             {
                 WebClient PatchFile = new WebClient();
                 PatchFile.DownloadFile(Host + "" + Patch, UpdatesPath + @"\" + Patch);
                 PatchFile.Dispose();
             }
-            catch (Exception e) {
-                this.StatusLable.Text = "Unable to connect to a3 ultimate server!!";
+            catch (Exception e)
+            {
+                this.StatusLable.Text = "Unable to connect to a3 townwars server!!";
                 this.Close();
             }
-            
+
             //Logger.Log("Patch file downloaded");
             return true;
         }
@@ -212,16 +212,17 @@ namespace A3Downloader
             System.IO.StreamReader myFile =
                new System.IO.StreamReader(filename);
             string myString = myFile.ReadToEnd();
-             myFile.Close();
+            myFile.Close();
             return myString;
-           
+
         }
-        public void PatchCheker() {
+        public void PatchCheker()
+        {
             this.StatusLable.Text = "Checking Patch Information..";
             String abc = readFile(UpdatesPath + @"\" + Patch);
             fileArray = Regex.Split(abc, ";");
             for (int i = 0; i < fileArray.Length; i++) { fileArray[i] = fileArray[i].Trim(); }
-           // MessageBox.Show("Number of Files to downloads are : "+fileArray[0], "Patch Downloaded Sucess Message !!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            // MessageBox.Show("Number of Files to downloads are : "+fileArray[0], "Patch Downloaded Sucess Message !!", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         #endregion
 
@@ -303,9 +304,9 @@ namespace A3Downloader
             }
             //backgroundWorker1.CancelAsync();
             backgroundWorker1.Dispose();
-            
+
             this.StatusLable.Text = "Client Update Cancled!!";
-            
+
             this.Start.Enabled = true;
             this.StopButton.Enabled = false;
             this.FullCkeckButton.Enabled = true;
@@ -321,12 +322,13 @@ namespace A3Downloader
 
         #region Finished Download
         public void FinishDownload()
-            {
+        {
             if (downloadFileList.Count != 0)
             {
-                this.StatusLable.Text = "we need to download " + downloadFileList.Count+" no of files ";
+                this.StatusLable.Text = "we need to download " + downloadFileList.Count + " no of files ";
             }
-            else {
+            else
+            {
 
                 this.StatusLable.Text = "Client is up to date";
                 this.percentLable.Text = "";
@@ -337,30 +339,30 @@ namespace A3Downloader
                 this.Start.Enabled = true;
                 this.Start.Image = A3Downloader.Properties.Resources.startEnabled;
             }
-        
+
         }
         #endregion
 
         #region Extract File
-        public void extract(string file,int size)
+        public void extract(string file, int size)
         {
-           // System.IO.Compression.
-            this.StatusLable.Text="Extracting : "+ file;
-            
+            // System.IO.Compression.
+            this.StatusLable.Text = "Extracting : " + file;
+
             if (file.Contains(@"\"))
             {
-               
-                UncompressFile(UpdatesPath + @"\" + file, @"\Data", file,size);
-              
+
+                UncompressFile(UpdatesPath + @"\" + file, @"\Data", file, size);
+
             }
             else
             {
                 UncompressFile(UpdatesPath + @"\" + file, "", file, size);
             }
-               
-               
+
+
         }
-        public void UncompressFile(string path,string destination,string file,int size)
+        public void UncompressFile(string path, string destination, string file, int size)
         {
             FileStream sourceFile = File.OpenRead(path);
             //MessageBox.Show(file);
@@ -390,46 +392,46 @@ namespace A3Downloader
         #region Main Form Events 
         private void Updater_Load(object sender, EventArgs e)
         {
-            this.pictureBox2.BackgroundImage = A3Downloader.Properties.Resources.bg1;
-            this.pictureBox1.BackgroundImage = A3Downloader.Properties.Resources.bg1;
-            this.CloseButton.BackgroundImage = A3Downloader.Properties.Resources.bg1;
-            
-           /* var url = "http://acp.a3ultimate.com/fb.html";
-            webBrowser1.Navigate(url + "?refreshToken=" + Guid.NewGuid().ToString());
-            webBrowser1.Visible = false;*/
+            //this.pictureBox2.BackgroundImage = A3Downloader.Properties.Resources.bg1;
+            //this.pictureBox1.BackgroundImage = A3Downloader.Properties.Resources.bg1;
+            //this.CloseButton.BackgroundImage = A3Downloader.Properties.Resources.bg1;
+
+            /* var url = "http://acp.a3townwars.com/fb.html";
+             webBrowser1.Navigate(url + "?refreshToken=" + Guid.NewGuid().ToString());
+             webBrowser1.Visible = false;*/
             //if (File.Exists("unrar.dll"))
             //{
-                //Check that whether it is alredy running or not ? 
-                if (IsAlreadyRunning())
-                {
-                    MessageBox.Show("Another Instance is alredy running !!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error,MessageBoxDefaultButton.Button1 ,(MessageBoxOptions)0x40000);
-                    Environment.Exit(0);
-                }
-                else
-                {
-                    if (!File.Exists(Directory.GetCurrentDirectory() + @"\Data\ulti.mate"))
-                    {
-                        Patch = "FullPatch.ini";
-                    }
-                    backgroundWorker1.RunWorkerAsync();
-                }
-                
-
-           /* }
-            else {
-
-                MessageBox.Show("unrar.dll not found.\n Please Download Updated Patch From .\n " + "http://acp.a3ultimate.com/Downloads", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //Check that whether it is alredy running or not ? 
+            if (IsAlreadyRunning())
+            {
+                MessageBox.Show("Another Instance is alredy running !!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
                 Environment.Exit(0);
+            }
+            else
+            {
+                if (!File.Exists(Directory.GetCurrentDirectory() + @"\Data\ulti.mate"))
+                {
+                    Patch = "FullPatch.ini";
+                }
+                backgroundWorker1.RunWorkerAsync();
+            }
 
-            }*/
-            
+
+            /* }
+             else {
+
+                 MessageBox.Show("unrar.dll not found.\n Please Download Updated Patch From .\n " + "http://acp.a3townwars.com/Downloads", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                 Environment.Exit(0);
+
+             }*/
+
         }
 
-       
+
         private void Updater_FormClosing(object sender, FormClosingEventArgs e)
         {
             CloseAll();
-          
+
         }
         private void Updater_Shown(object sender, EventArgs e)
         {
@@ -438,27 +440,28 @@ namespace A3Downloader
         #endregion
 
         #region Start All Processing 
-        public void StartAll() {
-           this.StatusLable.Text = "Connecting to the A3 Ultimate Update Server";
-           this.checkPatchFile();
-           this.PatchCheker();
-           this.CheckFiles();
-           this.FinishDownload();
+        public void StartAll()
+        {
+            this.StatusLable.Text = "Connecting to the A3 townwars Update Server";
+            this.checkPatchFile();
+            this.PatchCheker();
+            this.CheckFiles();
+            this.FinishDownload();
         }
-       
+
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             Directory.CreateDirectory("Updates");
             Directory.CreateDirectory("Updates/Data");
-            if(!Directory.Exists("Data"))
-            Directory.CreateDirectory("Data");
+            if (!Directory.Exists("Data"))
+                Directory.CreateDirectory("Data");
             this.FullCkeckButton.Enabled = false;
             this.StopButton.Enabled = true;
             this.Start.Enabled = false;
             this.Start.Image = A3Downloader.Properties.Resources.startDisabled;
             Random rand = new Random();
             int randome = rand.Next(3);
-           // this.BackgroundImage = Images[randome];
+            // this.BackgroundImage = Images[randome];
             this.StartAll();
         }
         #endregion
@@ -477,11 +480,13 @@ namespace A3Downloader
             try
             {
                 backgroundWorker1.RunWorkerAsync();
-            }catch(Exception e1){
-                MessageBox.Show("Error : "+e1.ToString());
+            }
+            catch (Exception e1)
+            {
+                MessageBox.Show("Error : " + e1.ToString());
             }
         }
-        
+
         private void CloseButton_Click(object sender, EventArgs e)
         {
             CloseAll();
@@ -534,15 +539,15 @@ namespace A3Downloader
 
         private void Start_Click(object sender, EventArgs e)
         {
-            String client=Directory.GetCurrentDirectory()+@"\A3client.exe";
+            String client = Directory.GetCurrentDirectory() + @"\A3Client562TW.exe";
             if (File.Exists(client))
             {
-                System.Diagnostics.Process.Start("A3Client.exe");
+                System.Diagnostics.Process.Start("A3Client562TW.exe");
                 Environment.Exit(0);
             }
-            else 
+            else
             {
-                MessageBox.Show("A3Client.exe Not Found Please Run Updater again!","Error!"); 
+                MessageBox.Show("A3Client.exe Not Found Please Run Updater again!", "Error!");
             }
         }
 
@@ -584,48 +589,48 @@ namespace A3Downloader
         #region Links 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://acp.a3ultimate.com/");
+            Process.Start("http://acp.a3townwars.com/");
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://acp.a3ultimate.com/ACP/");
+            Process.Start("http://acp.a3townwars.com/ACP/");
         }
 
         private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://acp.a3ultimate.com/Gallery/View/");
+            Process.Start("http://acp.a3townwars.com/Gallery/View/");
         }
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://acp.a3ultimate.com/Auction/View/");
+            Process.Start("http://acp.a3townwars.com/Auction/View/");
         }
 
         private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://forum.a3ultimate.com/");
+            Process.Start("http://forum.a3townwars.com/");
         }
 
         private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://support.a3ultimate.com/");
+            Process.Start("http://support.a3townwars.com/");
         }
 
         private void linkLabel7_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://acp.a3ultimate.com/Downloads/"); 
+            Process.Start("http://acp.a3townwars.com/Downloads/");
         }
 
         private void linkLabel8_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://acp.a3ultimate.com/Register");
+            Process.Start("http://acp.a3townwars.com/Register");
         }
         #endregion
 
         private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            webBrowser1.Visible = true;
+            //webBrowser1.Visible = true;
         }
     }
 }

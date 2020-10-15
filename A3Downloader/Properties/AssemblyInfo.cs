@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("A3 Ultimate Launcher")]
-[assembly: AssemblyDescription("A3 Ultimate Launcher")]
+[assembly: AssemblyTitle("A3 Townwars Launcher")]
+[assembly: AssemblyDescription("A3 Townwars Launcher")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("A3 Ultimate")]
-[assembly: AssemblyProduct("A3 Ultimate Launcher")]
-[assembly: AssemblyCopyright("Vikram Sangat")]
+[assembly: AssemblyCompany("A3 Townwars")]
+[assembly: AssemblyProduct("A3 Townwars Launcher")]
+[assembly: AssemblyCopyright("Townwars")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

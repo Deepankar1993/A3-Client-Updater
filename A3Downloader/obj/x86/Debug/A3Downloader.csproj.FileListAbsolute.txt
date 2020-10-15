@@ -19,3 +19,13 @@ C:\Projects\A3Downloader\A3Downloader\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\Projects\A3Downloader\A3Downloader\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\Projects\A3Downloader\A3Downloader\obj\x86\Debug\GenerateResource-ResGen.read.1.tlog
 C:\Projects\A3Downloader\A3Downloader\obj\x86\Debug\GenerateResource-ResGen.write.1.tlog
+N:\Projects2\VisualStudio\Projects\Git\A3-Client-Updater\A3Downloader\obj\x86\Debug\A3Downloader.csprojAssemblyReference.cache
+N:\Projects2\VisualStudio\Projects\Git\A3-Client-Updater\A3Downloader\obj\x86\Debug\A3Downloader.Properties.Resources.resources
+N:\Projects2\VisualStudio\Projects\Git\A3-Client-Updater\A3Downloader\obj\x86\Debug\A3Downloader.Updater.resources
+N:\Projects2\VisualStudio\Projects\Git\A3-Client-Updater\A3Downloader\obj\x86\Debug\A3Downloader.csproj.GenerateResource.cache
+N:\Projects2\VisualStudio\Projects\Git\A3-Client-Updater\A3Downloader\obj\x86\Debug\A3Downloader.csproj.CoreCompileInputs.cache
+N:\Projects2\VisualStudio\Projects\Git\A3-Client-Updater\A3Downloader\obj\x86\Debug\UltimateLauncher.exe
+N:\Projects2\VisualStudio\Projects\Git\A3-Client-Updater\A3Downloader\obj\x86\Debug\UltimateLauncher.pdb
+N:\Projects2\VisualStudio\Projects\Git\A3-Client-Updater\A3Downloader\bin\Debug\UltimateLauncher.exe.config
+N:\Projects2\VisualStudio\Projects\Git\A3-Client-Updater\A3Downloader\bin\Debug\UltimateLauncher.exe
+N:\Projects2\VisualStudio\Projects\Git\A3-Client-Updater\A3Downloader\bin\Debug\UltimateLauncher.pdb
